@@ -1,0 +1,77 @@
+#include<iostream>
+#include<string.h>
+#include<stdlib.h>
+using namespace std;
+string str[10];
+string fstr;
+char ch;
+void findwords(string fstr,int i,int j,int cnt,int len,int cnt2)
+{
+    if(str[j][i]==fstr[i])
+    {
+        cnt2++;
+        i++;
+    }
+    else
+    {
+        findwords(fstr,0,j + 1,cnt,len,-1);
+    }
+    if(cnt2==fstr.length() - 1)
+    {
+       cout<<str[j]<<endl;
+       cnt++;
+    }
+    else
+    {
+       findwords(fstr,i,j,cnt,len,cnt2);   
+    }
+    if(j==len)
+    {
+        if(cnt==0)
+        {
+            cout<<"\nOops! Word not found"<<endl;
+        }
+        if(cnt==1)
+        {
+            exit(0);
+        }
+        while(cnt!=1)
+        {
+            cin>>ch;
+            fstr=fstr+ch;
+            findwords(fstr,0,0,0,len,-1);
+        }
+    }
+    else
+    {
+       findwords(fstr,0,j + 1,cnt,len,-1);
+    }
+}
+void words(string s,int i,int j)
+{
+    if(s[i]=='\0')
+    {
+        char ch;
+        cin>>ch;
+        fstr=fstr+ch;
+        findwords(fstr,0,0,0,j,-1);
+    }
+    else if(s[i]==' ')
+    {
+        j++;
+        words(s,i + 1,j);
+    }
+    else
+    {
+        str[j]=str[j]+s[i];
+        i++;
+        words(s,i,j);
+    }
+}
+int main()
+{
+   string s;
+   getline(cin,s);
+   words(s,0,0);
+}
+
